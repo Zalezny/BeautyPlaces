@@ -4,16 +4,18 @@ import 'package:beauty_places/screens/map_screen.dart';
 import 'package:beauty_places/screens/write_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
-import 'data/firestore_helper.dart';
 import 'firebase_options.dart';
+import 'services/injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirestoreHelper().places();
+  await configureDependencies(Environment.dev);
+  // FirestoreHelper().places();
 
   runApp(const MyApp());
 }

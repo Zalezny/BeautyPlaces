@@ -1,7 +1,34 @@
+import 'package:beauty_places/bloc/cubit/write_cubit.dart';
+import 'package:beauty_places/data/models/place_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class WriteScreen extends StatelessWidget {
+import '../services/injection.dart';
+
+class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key});
+
+  @override
+  State<WriteScreen> createState() => _WriteScreenState();
+}
+
+class _WriteScreenState extends State<WriteScreen> {
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _imgUrlController = TextEditingController();
+  final _locationLatitudeController = TextEditingController();
+  final _locationLongtitudeController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _imgUrlController.dispose();
+    _locationLatitudeController.dispose();
+    _locationLongtitudeController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,39 +38,44 @@ class WriteScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(
                   label: Text('Tytuł'),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 200,
                 child: TextField(
+                  controller: _descriptionController,
                   expands: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text('Opis'),
                   ),
                   maxLines: null,
                 ),
               ),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _imgUrlController,
+                decoration: const InputDecoration(
                   label: Text('link do zdjęcia'),
                 ),
               ),
-              const Row(
+              Row(
                 children: [
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _locationLatitudeController,
+                      decoration: const InputDecoration(
                         label: Text('Lokalizacja lat'),
                       ),
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _locationLongtitudeController,
+                      decoration: const InputDecoration(
                         label: Text('Lokalizacja lot'),
                       ),
                     ),
@@ -56,7 +88,16 @@ class WriteScreen extends StatelessWidget {
                 width: 200,
                 child: ElevatedButton(
                   onPressed: () {
-                    
+                    final model = PlaceModel(
+                      title: _titleController.text,
+                      description: _descriptionController.text,
+                      imageUrl: _imgUrlController.text,
+                      location: GeoPoint(
+                        double.parse(_locationLatitudeController.text),
+                        double.parse(_locationLongtitudeController.text),
+                      ),
+                    );
+                    getIt<WriteCubit>().sendModel(model);
                   },
                   child: const Text('Dodaj'),
                 ),

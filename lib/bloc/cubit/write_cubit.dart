@@ -7,5 +7,7 @@ part 'write_state.dart';
 class WriteCubit extends Cubit<WriteState> {
   WriteCubit() : super(WriteInitial());
 
-  void sendModel(PlaceModel model) {}
+  void sendModel(PlaceModel model) {
+    
+  }
 }
