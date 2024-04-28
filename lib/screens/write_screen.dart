@@ -1,4 +1,5 @@
 import 'package:beauty_places/bloc/cubit/write_cubit.dart';
+import 'package:beauty_places/data/firestore/write_repository.dart';
 import 'package:beauty_places/data/models/place_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _WriteScreenState extends State<WriteScreen> {
   final _imgUrlController = TextEditingController();
   final _locationLatitudeController = TextEditingController();
   final _locationLongtitudeController = TextEditingController();
+  final _writeCubit = WriteCubit(getIt<WriteRepository>());
 
   @override
   void dispose() {
@@ -97,7 +99,7 @@ class _WriteScreenState extends State<WriteScreen> {
                         double.parse(_locationLongtitudeController.text),
                       ),
                     );
-                    getIt<WriteCubit>().sendModel(model);
+                    _writeCubit.sendModel(model);
                   },
                   child: const Text('Dodaj'),
                 ),
