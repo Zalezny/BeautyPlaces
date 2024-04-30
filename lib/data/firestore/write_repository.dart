@@ -10,7 +10,7 @@ class WriteRepository {
   Future<void> places() async {
     await db.collection(collectionName).get().then((event) {
       for (var doc in event.docs) {
-        print("${doc.id} => ${doc.data()}");
+        print("${doc.id} => ${doc.data()} r");
       }
     });
   }
