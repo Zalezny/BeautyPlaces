@@ -17,7 +17,7 @@ class WriteRepository {
 
   Future<String?> sendPlace(PlaceModel model) async {
     try {
-      final result = await db.collection(collectionName).add({'test': 'test'});
+      final result = await db.collection(collectionName).add(model.toJson());
       print(result);
       return result.id;
     } catch (e) {
