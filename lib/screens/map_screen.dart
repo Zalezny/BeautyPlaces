@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'widgets/place_details_window.dart';
+
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
 
@@ -56,9 +58,13 @@ class _MapScreenState extends State<MapScreen> {
                               width: 80.0,
                               height: 80.0,
                               point: LatLng(model.location.latitude, model.location.longitude),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: const Icon(Icons.location_on),
+                              child: Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: const Icon(Icons.location_on),
+                                  ),
+                                ],
                               ),
                             ),
                           )
@@ -86,6 +92,14 @@ class _MapScreenState extends State<MapScreen> {
               maxZoom: _initialZoom,
               zoom: _currentZoom,
             ),
+            // const Positioned(
+            //   bottom: 100,
+            //   left: 0,
+            //   child: Padding(
+            //     padding: EdgeInsets.all(20.0),
+            //     child: PlaceDetailsWindow(),
+            //   ),
+            // ),
           ],
         ),
       ),
