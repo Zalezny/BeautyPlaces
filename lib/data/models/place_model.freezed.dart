@@ -25,6 +25,7 @@ mixin _$PlaceModel {
   String get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   GeoPoint get location => throw _privateConstructorUsedError;
+  CategoryEnum get category => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $PlaceModelCopyWith<$Res> {
       String description,
       String imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
-      GeoPoint location});
+      GeoPoint location,
+      CategoryEnum category});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$PlaceModelCopyWithImpl<$Res, $Val extends PlaceModel>
     Object? description = null,
     Object? imageUrl = null,
     Object? location = null,
+    Object? category = null,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -81,6 +84,10 @@ class _$PlaceModelCopyWithImpl<$Res, $Val extends PlaceModel>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as GeoPoint,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as CategoryEnum,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$PlaceModelImplCopyWith<$Res>
       String description,
       String imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
-      GeoPoint location});
+      GeoPoint location,
+      CategoryEnum category});
 }
 
 /// @nodoc
@@ -116,6 +124,7 @@ class __$$PlaceModelImplCopyWithImpl<$Res>
     Object? description = null,
     Object? imageUrl = null,
     Object? location = null,
+    Object? category = null,
   }) {
     return _then(_$PlaceModelImpl(
       title: null == title
@@ -134,6 +143,10 @@ class __$$PlaceModelImplCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as GeoPoint,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as CategoryEnum,
     ));
   }
 }
@@ -146,7 +159,8 @@ class _$PlaceModelImpl implements _PlaceModel {
       required this.description,
       required this.imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
-      required this.location});
+      required this.location,
+      required this.category});
 
   factory _$PlaceModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlaceModelImplFromJson(json);
@@ -160,10 +174,12 @@ class _$PlaceModelImpl implements _PlaceModel {
   @override
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   final GeoPoint location;
+  @override
+  final CategoryEnum category;
 
   @override
   String toString() {
-    return 'PlaceModel(title: $title, description: $description, imageUrl: $imageUrl, location: $location)';
+    return 'PlaceModel(title: $title, description: $description, imageUrl: $imageUrl, location: $location, category: $category)';
   }
 
   @override
@@ -177,13 +193,15 @@ class _$PlaceModelImpl implements _PlaceModel {
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.location, location) ||
-                other.location == location));
+                other.location == location) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, title, description, imageUrl, location);
+  int get hashCode => Object.hash(
+      runtimeType, title, description, imageUrl, location, category);
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +223,8 @@ abstract class _PlaceModel implements PlaceModel {
       required final String description,
       required final String imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
-      required final GeoPoint location}) = _$PlaceModelImpl;
+      required final GeoPoint location,
+      required final CategoryEnum category}) = _$PlaceModelImpl;
 
   factory _PlaceModel.fromJson(Map<String, dynamic> json) =
       _$PlaceModelImpl.fromJson;
@@ -219,6 +238,8 @@ abstract class _PlaceModel implements PlaceModel {
   @override
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   GeoPoint get location;
+  @override
+  CategoryEnum get category;
   @override
   @JsonKey(ignore: true)
   _$$PlaceModelImplCopyWith<_$PlaceModelImpl> get copyWith =>

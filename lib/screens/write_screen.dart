@@ -1,8 +1,10 @@
 import 'package:beauty_places/bloc/cubit/write_cubit.dart';
 import 'package:beauty_places/data/firestore/write_repository.dart';
 import 'package:beauty_places/data/models/place_model.dart';
+import 'package:beauty_places/enums/category_enum.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../services/injection.dart';
 
@@ -20,6 +22,14 @@ class _WriteScreenState extends State<WriteScreen> {
   final _locationLatitudeController = TextEditingController();
   final _locationLongtitudeController = TextEditingController();
   final _writeCubit = WriteCubit(getIt<WriteRepository>());
+  CategoryEnum? _categoryEnum;
+  final ftoast = FToast();
+
+  @override
+  void initState() {
+    super.initState();
+    ftoast.init(context);
+  }
 
   @override
   void dispose() {
@@ -84,12 +94,23 @@ class _WriteScreenState extends State<WriteScreen> {
                   ),
                 ],
               ),
+              DropdownMenu(
+                onSelected: (value) {
+                  _categoryEnum = value;
+                },
+                dropdownMenuEntries: CategoryEnum.values.map((e) {
+                  return DropdownMenuEntry(
+                    value: e,
+                    label: e.toString(),
+                  );
+                }).toList(),
+              ),
               const SizedBox(height: 16),
               SizedBox(
                 height: 60,
                 width: 200,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final model = PlaceModel(
                       title: _titleController.text,
                       description: _descriptionController.text,
@@ -98,8 +119,19 @@ class _WriteScreenState extends State<WriteScreen> {
                         double.parse(_locationLatitudeController.text),
                         double.parse(_locationLongtitudeController.text),
                       ),
+                      category: _categoryEnum!,
                     );
-                    _writeCubit.sendModel(model);
+
+                    _writeCubit.sendModel(model).then((value) {
+                      _categoryEnum = null;
+                      _titleController.clear();
+                      _descriptionController.clear();
+                      _imgUrlController.clear();
+                      _locationLatitudeController.clear();
+                      _locationLongtitudeController.clear();
+
+                      ftoast.showToast(child: const Text('Dodano nowe miejsce!'));
+                    });
                   },
                   child: const Text('Dodaj'),
                 ),

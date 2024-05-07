@@ -1,9 +1,12 @@
+import 'package:beauty_places/data/firestore/write_repository.dart';
 import 'package:beauty_places/screens/map_screen.dart';
 import 'package:beauty_places/screens/write_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import 'bloc/cubit/map_cubit.dart';
 import 'firebase_options.dart';
 import 'services/injection.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -30,7 +33,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: kIsWeb ? const WriteScreen() : const MapScreen(),
+      home: kIsWeb
+          ? const WriteScreen()
+          : BlocProvider(
+              create: (context) => MapCubit(getIt<WriteRepository>())..getModels(),
+              child: const MapScreen(),
+            ),
     );
   }
 }

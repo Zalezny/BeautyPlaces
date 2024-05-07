@@ -12,6 +12,7 @@ _$PlaceModelImpl _$$PlaceModelImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       imageUrl: json['imageUrl'] as String,
       location: _locationFromJson(json['location']),
+      category: $enumDecode(_$CategoryEnumEnumMap, json['category']),
     );
 
 Map<String, dynamic> _$$PlaceModelImplToJson(_$PlaceModelImpl instance) =>
@@ -20,4 +21,14 @@ Map<String, dynamic> _$$PlaceModelImplToJson(_$PlaceModelImpl instance) =>
       'description': instance.description,
       'imageUrl': instance.imageUrl,
       'location': _locationToJson(instance.location),
+      'category': _$CategoryEnumEnumMap[instance.category]!,
     };
+
+const _$CategoryEnumEnumMap = {
+  CategoryEnum.places: 'Places',
+  CategoryEnum.picks: 'Picks',
+  CategoryEnum.riversAndCanals: 'Rivers And Canals',
+  CategoryEnum.lake: 'Lake',
+  CategoryEnum.nationalParks: 'National Parks',
+  CategoryEnum.cities: 'Cities',
+};
