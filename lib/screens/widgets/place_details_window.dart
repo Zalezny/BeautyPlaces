@@ -1,5 +1,7 @@
 import 'package:beauty_places/data/models/place_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class PlaceDetailsWindow extends StatelessWidget {
   final PlaceModel place;
@@ -27,8 +29,39 @@ class PlaceDetailsWindow extends StatelessWidget {
           ],
         ),
         child: SingleChildScrollView(
-          child: Container(),
-        ),
+            child: Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: Column(
+            children: [
+              Container(
+                constraints: const BoxConstraints(
+                  maxHeight: 300,
+                  maxWidth: double.infinity,
+                ),
+                child: Image.network(
+                  place.imageUrl,
+                  width: double.infinity,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset('lib/assets/images/coffee.png');
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                place.title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  place.description,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ],
+          ),
+        )),
       ),
     );
   }

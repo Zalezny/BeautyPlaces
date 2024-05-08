@@ -1,4 +1,5 @@
 import 'package:beauty_places/bloc/cubit/map_cubit.dart';
+import 'package:beauty_places/data/models/place_model.dart';
 import 'package:beauty_places/screens/widgets/zoom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class _MapScreenState extends State<MapScreen> {
   double _currentZoom = 7;
   final _mapController = MapController();
   LatLng _currentLatLng = const LatLng(50.1545, 19.0118);
+  PlaceModel? showDetailsPlace;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,11 @@ class _MapScreenState extends State<MapScreen> {
           options: MapOptions(
             initialCenter: _currentLatLng,
             initialZoom: 6.2,
+            onTap: (tapPosition, point) {
+              setState(() {
+                showDetailsPlace = null;
+              });
+            },
             onPositionChanged: (mapPosition, hasGesture) {
               if (mapPosition.zoom != null && mapPosition.zoom != _currentZoom) {
                 setState(() {
@@ -61,7 +68,11 @@ class _MapScreenState extends State<MapScreen> {
                               child: Stack(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      setState(() {
+                                        showDetailsPlace = model;
+                                      });
+                                    },
                                     child: const Icon(Icons.location_on),
                                   ),
                                 ],
@@ -81,6 +92,14 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ],
             ),
+            if (showDetailsPlace != null)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: MediaQuery.of(context).padding.top + 10),
+                child: PlaceDetailsWindow(
+                  key: ValueKey(showDetailsPlace),
+                  place: showDetailsPlace!,
+                ),
+              ),
             ZoomButtons(
               onZoomIn: () {
                 _mapController.move(_currentLatLng, _currentZoom + 1);
@@ -92,14 +111,6 @@ class _MapScreenState extends State<MapScreen> {
               maxZoom: _initialZoom,
               zoom: _currentZoom,
             ),
-            // const Positioned(
-            //   bottom: 100,
-            //   left: 0,
-            //   child: Padding(
-            //     padding: EdgeInsets.all(20.0),
-            //     child: PlaceDetailsWindow(),
-            //   ),
-            // ),
           ],
         ),
       ),
