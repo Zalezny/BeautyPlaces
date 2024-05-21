@@ -76,9 +76,12 @@ class _MapScreenState extends State<MapScreen> {
                       markers: state.models!
                           .map(
                             (model) => Marker(
+                              height: 48,
+                              width: 48,
                               alignment: Alignment.topCenter,
                               point: LatLng(model.location.latitude, model.location.longitude),
                               child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
                                 onTap: () {
                                   setState(() {
                                     showDetailsPlace = model;
