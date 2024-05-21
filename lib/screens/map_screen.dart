@@ -62,8 +62,7 @@ class _MapScreenState extends State<MapScreen> {
                       markers: state.models!
                           .map(
                             (model) => Marker(
-                              width: 80.0,
-                              height: 80.0,
+                              alignment: Alignment.topCenter,
                               point: LatLng(model.location.latitude, model.location.longitude),
                               child: Stack(
                                 children: [
@@ -73,7 +72,10 @@ class _MapScreenState extends State<MapScreen> {
                                         showDetailsPlace = model;
                                       });
                                     },
-                                    child: const Icon(Icons.location_on),
+                                    child: const Icon(
+                                      Icons.location_on,
+                                      size: 48,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -94,7 +96,7 @@ class _MapScreenState extends State<MapScreen> {
             ),
             if (showDetailsPlace != null)
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: MediaQuery.of(context).padding.top + 10),
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: MediaQuery.of(context).padding.top + 80),
                 child: PlaceDetailsWindow(
                   key: ValueKey(showDetailsPlace),
                   place: showDetailsPlace!,

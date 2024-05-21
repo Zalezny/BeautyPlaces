@@ -1,7 +1,6 @@
 import 'package:beauty_places/data/models/place_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class PlaceDetailsWindow extends StatelessWidget {
   final PlaceModel place;
@@ -35,13 +34,13 @@ class PlaceDetailsWindow extends StatelessWidget {
             children: [
               Container(
                 constraints: const BoxConstraints(
-                  maxHeight: 300,
+                  maxHeight: 400,
                   maxWidth: double.infinity,
                 ),
-                child: Image.network(
-                  place.imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: place.imageUrl,
                   width: double.infinity,
-                  errorBuilder: (context, error, stackTrace) {
+                  errorWidget: (context, error, stackTrace) {
                     return Image.asset('lib/assets/images/coffee.png');
                   },
                 ),

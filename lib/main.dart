@@ -18,7 +18,6 @@ void main() async {
   );
   await configureDependencies(Environment.dev);
   // FirestoreHelper().places();
-
   runApp(const MyApp());
 }
 
