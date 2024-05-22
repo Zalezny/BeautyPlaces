@@ -1,6 +1,7 @@
 import 'package:beauty_places/bloc/cubit/map_cubit.dart';
 import 'package:beauty_places/data/models/place_model.dart';
 import 'package:beauty_places/screens/widgets/draggable_sheet_widget.dart';
+import 'package:beauty_places/screens/widgets/simple_account_menu.dart';
 import 'package:beauty_places/screens/widgets/zoom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -112,16 +113,30 @@ class _MapScreenState extends State<MapScreen> {
                 sheetController: _sheetController,
                 child: PlaceDetailsWindow(place: showDetailsPlace!),
               ),
-            ZoomButtons(
-              onZoomIn: () {
-                _mapController.move(_currentLatLng, _currentZoom + 1);
-              },
-              onZoomOut: () {
-                _mapController.move(_currentLatLng, _currentZoom - 1);
-              },
-              minZoom: _minZoom,
-              maxZoom: _initialZoom,
-              zoom: _currentZoom,
+            Container(
+              padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top + 5, right: 20),
+              alignment: Alignment.topLeft,
+              child: Column(
+                children: [
+                  ZoomButtons(
+                    onZoomIn: () {
+                      _mapController.move(_currentLatLng, _currentZoom + 1);
+                    },
+                    onZoomOut: () {
+                      _mapController.move(_currentLatLng, _currentZoom - 1);
+                    },
+                    minZoom: _minZoom,
+                    maxZoom: _initialZoom,
+                    zoom: _currentZoom,
+                  ),
+                  const SizedBox(height: 10),
+                  SimpleAccountMenu(
+                    onChoice: (p0) {
+                      //TODO: choice element
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
