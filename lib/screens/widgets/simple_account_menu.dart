@@ -12,7 +12,7 @@ class SimpleAccountMenu extends StatefulWidget {
   });
 
   @override
-  _SimpleAccountMenuState createState() => _SimpleAccountMenuState();
+  State<SimpleAccountMenu> createState() => _SimpleAccountMenuState();
 }
 
 class _SimpleAccountMenuState extends State<SimpleAccountMenu> with SingleTickerProviderStateMixin {

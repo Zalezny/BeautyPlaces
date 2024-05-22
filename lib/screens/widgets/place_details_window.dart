@@ -1,13 +1,17 @@
 import 'package:beauty_places/data/models/place_model.dart';
-import 'package:beauty_places/utils/maps_utils.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:beauty_places/screens/widgets/window_image.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 
-class PlaceDetailsWindow extends StatelessWidget {
+class PlaceDetailsWindow extends StatefulWidget {
   final PlaceModel place;
   const PlaceDetailsWindow({super.key, required this.place});
-  
+
+  @override
+  State<PlaceDetailsWindow> createState() => _PlaceDetailsWindowState();
+}
+
+class _PlaceDetailsWindowState extends State<PlaceDetailsWindow> {
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,55 +39,19 @@ class PlaceDetailsWindow extends StatelessWidget {
               padding: const EdgeInsets.all(0.0),
               child: Column(
                 children: [
-                  Container(
-                    constraints: const BoxConstraints(
-                      maxHeight: 300,
-                      maxWidth: double.infinity,
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: place.imageUrl,
-                      width: double.infinity,
-                      imageBuilder: (context, imageProvider) {
-                        return Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Share.shareUri(MapUtils.uri(place.location.latitude, place.location.longitude));
-                                },
-                                child: Container(
-                                  color: Colors.blue.withOpacity(0.6),
-                                  alignment: Alignment.center,
-                                  height: 50,
-                                  width: 50,
-                                  child: const Icon(
-                                    Icons.share,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                      errorWidget: (context, error, stackTrace) {
-                        return Image.asset('lib/assets/images/coffee.png');
-                      },
-                    ),
+                  WindowImage(
+                    imageUrl: widget.place.imageUrl,
+                    location: widget.place.location,
+                    isFavorite: isFavorite,
+                    onFavorite: () {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                      });
+                    },
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    '${place.location.latitude} ${place.location.longitude}',
+                    '${widget.place.location.latitude} ${widget.place.location.longitude}',
                     style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
@@ -91,14 +59,14 @@ class PlaceDetailsWindow extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    place.title,
+                    widget.place.title,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      place.description,
+                      widget.place.description,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

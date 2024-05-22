@@ -14,6 +14,7 @@ class PlaceModel with _$PlaceModel {
     required String imageUrl,
     @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson) required GeoPoint location,
     required CategoryEnum category,
+    bool? isFavorite,
   }) = _PlaceModel;
 
   factory PlaceModel.fromJson(Map<String, dynamic> json) => _$PlaceModelFromJson(json);
