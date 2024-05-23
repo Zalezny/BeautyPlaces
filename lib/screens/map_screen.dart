@@ -1,6 +1,7 @@
 import 'package:beauty_places/bloc/cubit/map_cubit.dart';
 import 'package:beauty_places/data/models/place_model.dart';
 import 'package:beauty_places/screens/widgets/draggable_sheet_widget.dart';
+import 'package:beauty_places/screens/widgets/favorite_dialog.dart';
 import 'package:beauty_places/screens/widgets/simple_account_menu.dart';
 import 'package:beauty_places/screens/widgets/zoom_buttons.dart';
 import 'package:flutter/material.dart';
@@ -131,8 +132,26 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   const SizedBox(height: 10),
                   SimpleAccountMenu(
-                    onChoice: (p0) {
-                      //TODO: choice element
+                    onChoice: (chosenIndex) {
+                      switch (chosenIndex) {
+                        case 0:
+                          showDialog(
+                            context: context,
+                            builder: (_) => BlocProvider.value(
+                              value: BlocProvider.of<MapCubit>(context),
+                              child: FavoriteDialog(
+                                onFavoriteChosen: (model) {
+                                  setState(() {
+                                    showDetailsPlace = model;
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                          break;
+                        case 1:
+                          break;
+                      }
                     },
                   ),
                 ],
