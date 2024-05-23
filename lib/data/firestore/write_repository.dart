@@ -1,4 +1,5 @@
 import 'package:beauty_places/data/models/place_model.dart';
+import 'package:beauty_places/utils/logger.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,8 +12,8 @@ class WriteRepository {
     final event = await _db.collection(_collectionName).get();
     List<PlaceModel> list = [];
     for (var doc in event.docs) {
-      print("${doc.id} => ${doc.data()} r");
-      list.add(PlaceModel.fromJson(doc.data()));
+      final model = PlaceModel.fromJson(doc.data());
+      list.add(model.copyWith(uuid: doc.id));
     }
     return list;
   }
@@ -20,10 +21,9 @@ class WriteRepository {
   Future<String?> sendPlace(PlaceModel model) async {
     try {
       final result = await _db.collection(_collectionName).add(model.toJson());
-      print(result);
       return result.id;
     } catch (e) {
-      print(e);
+      logger.e(e);
     }
     return null;
   }

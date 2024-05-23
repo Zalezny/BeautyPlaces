@@ -1,3 +1,4 @@
+import 'package:beauty_places/screens/widgets/window_image_icon.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,10 @@ class WindowImage extends StatelessWidget {
     this.isFavorite = false,
     required this.onFavorite,
   });
+
+  void _onShare() {
+    Share.shareUri(MapUtils.uri(location.latitude, location.longitude));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,38 +50,13 @@ class WindowImage extends StatelessWidget {
                 right: 0,
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        onFavorite();
-                      },
-                      child: Container(
-                        color: Colors.blue.withOpacity(0.6),
-                        alignment: Alignment.center,
-                        height: 50,
-                        width: 50,
-                        child: IconButton(
-                          onPressed: onFavorite,
-                          icon: Icon(
-                            isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                    WindowImageIcon(
+                      onIconTap: onFavorite,
+                      icon: isFavorite ? Icons.favorite : Icons.favorite_border,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Share.shareUri(MapUtils.uri(location.latitude, location.longitude));
-                      },
-                      child: Container(
-                        color: Colors.blue.withOpacity(0.6),
-                        alignment: Alignment.center,
-                        height: 50,
-                        width: 50,
-                        child: const Icon(
-                          Icons.share,
-                          color: Colors.white,
-                        ),
-                      ),
+                    WindowImageIcon(
+                      onIconTap: _onShare,
+                      icon: Icons.share,
                     ),
                   ],
                 ),
@@ -85,7 +65,28 @@ class WindowImage extends StatelessWidget {
           );
         },
         errorWidget: (context, error, stackTrace) {
-          return Image.asset('lib/assets/images/coffee.png');
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.asset('lib/assets/images/coffee.png'),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Row(
+                  children: [
+                    WindowImageIcon(
+                      onIconTap: onFavorite,
+                      icon: isFavorite ? Icons.favorite : Icons.favorite_border,
+                    ),
+                    WindowImageIcon(
+                      onIconTap: _onShare,
+                      icon: Icons.share,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
         },
       ),
     );

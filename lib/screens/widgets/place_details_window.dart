@@ -1,6 +1,9 @@
 import 'package:beauty_places/data/models/place_model.dart';
 import 'package:beauty_places/screens/widgets/window_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/cubit/map_cubit.dart';
 
 class PlaceDetailsWindow extends StatefulWidget {
   final PlaceModel place;
@@ -12,6 +15,12 @@ class PlaceDetailsWindow extends StatefulWidget {
 
 class _PlaceDetailsWindowState extends State<PlaceDetailsWindow> {
   bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = context.read<MapCubit>().containsFavorite(widget.place.uuid!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +56,7 @@ class _PlaceDetailsWindowState extends State<PlaceDetailsWindow> {
                       setState(() {
                         isFavorite = !isFavorite;
                       });
+                      context.read<MapCubit>().changeFavorite(widget.place.uuid!);
                     },
                   ),
                   const SizedBox(height: 10),

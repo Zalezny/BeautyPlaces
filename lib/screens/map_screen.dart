@@ -111,7 +111,7 @@ class _MapScreenState extends State<MapScreen> {
             if (showDetailsPlace != null)
               DraggableSheetWidget(
                 sheetController: _sheetController,
-                child: PlaceDetailsWindow(place: showDetailsPlace!),
+                child: PlaceDetailsWindow(key: UniqueKey(), place: showDetailsPlace!),
               ),
             Container(
               padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top + 5, right: 20),

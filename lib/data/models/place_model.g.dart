@@ -8,22 +8,22 @@ part of 'place_model.dart';
 
 _$PlaceModelImpl _$$PlaceModelImplFromJson(Map<String, dynamic> json) =>
     _$PlaceModelImpl(
+      uuid: json['uuid'] as String?,
       title: json['title'] as String,
       description: json['description'] as String,
       imageUrl: json['imageUrl'] as String,
       location: _locationFromJson(json['location']),
       category: $enumDecode(_$CategoryEnumEnumMap, json['category']),
-      isFavorite: json['isFavorite'] as bool?,
     );
 
 Map<String, dynamic> _$$PlaceModelImplToJson(_$PlaceModelImpl instance) =>
     <String, dynamic>{
+      'uuid': instance.uuid,
       'title': instance.title,
       'description': instance.description,
       'imageUrl': instance.imageUrl,
       'location': _locationToJson(instance.location),
       'category': _$CategoryEnumEnumMap[instance.category]!,
-      'isFavorite': instance.isFavorite,
     };
 
 const _$CategoryEnumEnumMap = {
