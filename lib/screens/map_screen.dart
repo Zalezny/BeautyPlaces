@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'widgets/new_place_dialog.dart';
 import 'widgets/place_details_window.dart';
 
 class MapScreen extends StatefulWidget {
@@ -133,24 +134,29 @@ class _MapScreenState extends State<MapScreen> {
                   const SizedBox(height: 10),
                   SimpleAccountMenu(
                     onChoice: (chosenIndex) {
+                      Widget? dialog;
                       switch (chosenIndex) {
                         case 0:
-                          showDialog(
-                            context: context,
-                            builder: (_) => BlocProvider.value(
-                              value: BlocProvider.of<MapCubit>(context),
-                              child: FavoriteDialog(
-                                onFavoriteChosen: (model) {
-                                  setState(() {
-                                    showDetailsPlace = model;
-                                  });
-                                },
-                              ),
-                            ),
+                          dialog = FavoriteDialog(
+                            onFavoriteChosen: (model) {
+                              setState(() {
+                                showDetailsPlace = model;
+                              });
+                            },
                           );
                           break;
                         case 1:
+                          dialog = NewPlaceDialog();
                           break;
+                      }
+                      if (dialog != null) {
+                        showDialog(
+                          context: context,
+                          builder: (_) => BlocProvider.value(
+                            value: BlocProvider.of<MapCubit>(context),
+                            child: dialog,
+                          ),
+                        );
                       }
                     },
                   ),
