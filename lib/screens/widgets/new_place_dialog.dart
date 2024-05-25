@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
-class NewPlaceDialog extends StatelessWidget {
-  NewPlaceDialog({super.key});
+class NewPlaceDialog extends StatefulWidget {
+  const NewPlaceDialog({super.key});
 
+  @override
+  State<NewPlaceDialog> createState() => _NewPlaceDialogState();
+}
+
+class _NewPlaceDialogState extends State<NewPlaceDialog> {
   final _formKey = GlobalKey<FormState>();
+
+  final LatLng _currentLatLng = const LatLng(50.1545, 19.0118);
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +64,31 @@ class NewPlaceDialog extends StatelessWidget {
                 ),
                 validator: _validator,
               ),
-              TextFormField(
-                maxLines: 1,
-                decoration: const InputDecoration(
-                  hintText: 'Latitude',
+              const SizedBox(height: 25),
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Pick location',
+                  style: TextStyle(fontSize: 18),
                 ),
-                validator: _validator,
               ),
-              TextFormField(
-                maxLines: 1,
-                decoration: const InputDecoration(
-                  hintText: 'Longitude',
+              const SizedBox(height: 15),
+              SizedBox(
+                height: 300,
+                child: FlutterMap(
+                  options: MapOptions(
+                    initialCenter: _currentLatLng,
+                    initialZoom: 6.2,
+                    onTap: (tapPosition, point) {},
+                    onPositionChanged: (mapPosition, hasGesture) {},
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.example.app',
+                    ),
+                  ],
                 ),
-                validator: _validator,
               ),
               ElevatedButton(
                 onPressed: () {
