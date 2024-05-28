@@ -30,8 +30,11 @@ class SharedPreference {
   // }
 
   Future<List<String>> favorites() async {
-    final List<String> list =List<String>.from(
-       json.decode(await _getPreference(_favoritesKey)) as List);
+    final pref = await _getPreference(_favoritesKey);
+    if(pref == "") {
+      return [];
+    }
+    final List<String> list = List<String>.from(json.decode(pref) as List);
     return list;
   }
 

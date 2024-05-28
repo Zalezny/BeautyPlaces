@@ -132,14 +132,14 @@ class _NewPlaceDialogState extends State<NewPlaceDialog> {
               ),
               const SizedBox(height: 16),
               DropdownMenu(
-                label: const Text('Kategoria'),
+                label: const Text('Category'),
                 onSelected: (value) {
                   _categoryEnum = value;
                 },
                 dropdownMenuEntries: CategoryEnum.values.map((e) {
                   return DropdownMenuEntry(
                     value: e,
-                    label: _categoryEnumToString[e] ?? 'Nieznany',
+                    label: _categoryEnumToString[e] ?? 'Unknown',
                   );
                 }).toList(),
               ),
@@ -156,7 +156,6 @@ class _NewPlaceDialogState extends State<NewPlaceDialog> {
                     );
                     context.read<MapCubit>().writePlace(place, (id) {
                       Navigator.pop(context);
-                      
                     });
                   }
                   // Navigator.pop(context);
