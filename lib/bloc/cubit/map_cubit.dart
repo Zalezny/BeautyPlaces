@@ -33,4 +33,14 @@ class MapCubit extends Cubit<MapState> {
   bool containsFavorite(String uuid) {
     return state.favorite.contains(uuid);
   }
+
+  void writePlace(PlaceModel place, Function(String) onSuccess) async {
+    final id = await _writeRepository.sendPlace(place);
+    if (id != null) {
+      onSuccess(id);
+      final models = state.models;
+      place = place.copyWith(uuid: id);
+      emit(state.copyWith(models: models != null ? [...models, place] : [place]));
+    }
+  }
 }
