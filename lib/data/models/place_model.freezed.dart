@@ -27,6 +27,7 @@ mixin _$PlaceModel {
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   GeoPoint get location => throw _privateConstructorUsedError;
   CategoryEnum get category => throw _privateConstructorUsedError;
+  List<CommentModel> get comments => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $PlaceModelCopyWith<$Res> {
       String imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
       GeoPoint location,
-      CategoryEnum category});
+      CategoryEnum category,
+      List<CommentModel> comments});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$PlaceModelCopyWithImpl<$Res, $Val extends PlaceModel>
     Object? imageUrl = null,
     Object? location = null,
     Object? category = null,
+    Object? comments = null,
   }) {
     return _then(_value.copyWith(
       uuid: freezed == uuid
@@ -95,6 +98,10 @@ class _$PlaceModelCopyWithImpl<$Res, $Val extends PlaceModel>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as CategoryEnum,
+      comments: null == comments
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<CommentModel>,
     ) as $Val);
   }
 }
@@ -114,7 +121,8 @@ abstract class _$$PlaceModelImplCopyWith<$Res>
       String imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
       GeoPoint location,
-      CategoryEnum category});
+      CategoryEnum category,
+      List<CommentModel> comments});
 }
 
 /// @nodoc
@@ -134,6 +142,7 @@ class __$$PlaceModelImplCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? location = null,
     Object? category = null,
+    Object? comments = null,
   }) {
     return _then(_$PlaceModelImpl(
       uuid: freezed == uuid
@@ -160,6 +169,10 @@ class __$$PlaceModelImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as CategoryEnum,
+      comments: null == comments
+          ? _value._comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<CommentModel>,
     ));
   }
 }
@@ -174,7 +187,9 @@ class _$PlaceModelImpl implements _PlaceModel {
       required this.imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
       required this.location,
-      required this.category});
+      required this.category,
+      required final List<CommentModel> comments})
+      : _comments = comments;
 
   factory _$PlaceModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlaceModelImplFromJson(json);
@@ -192,10 +207,17 @@ class _$PlaceModelImpl implements _PlaceModel {
   final GeoPoint location;
   @override
   final CategoryEnum category;
+  final List<CommentModel> _comments;
+  @override
+  List<CommentModel> get comments {
+    if (_comments is EqualUnmodifiableListView) return _comments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_comments);
+  }
 
   @override
   String toString() {
-    return 'PlaceModel(uuid: $uuid, title: $title, description: $description, imageUrl: $imageUrl, location: $location, category: $category)';
+    return 'PlaceModel(uuid: $uuid, title: $title, description: $description, imageUrl: $imageUrl, location: $location, category: $category, comments: $comments)';
   }
 
   @override
@@ -212,13 +234,21 @@ class _$PlaceModelImpl implements _PlaceModel {
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.category, category) ||
-                other.category == category));
+                other.category == category) &&
+            const DeepCollectionEquality().equals(other._comments, _comments));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, uuid, title, description, imageUrl, location, category);
+      runtimeType,
+      uuid,
+      title,
+      description,
+      imageUrl,
+      location,
+      category,
+      const DeepCollectionEquality().hash(_comments));
 
   @JsonKey(ignore: true)
   @override
@@ -242,7 +272,8 @@ abstract class _PlaceModel implements PlaceModel {
       required final String imageUrl,
       @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
       required final GeoPoint location,
-      required final CategoryEnum category}) = _$PlaceModelImpl;
+      required final CategoryEnum category,
+      required final List<CommentModel> comments}) = _$PlaceModelImpl;
 
   factory _PlaceModel.fromJson(Map<String, dynamic> json) =
       _$PlaceModelImpl.fromJson;
@@ -260,6 +291,8 @@ abstract class _PlaceModel implements PlaceModel {
   GeoPoint get location;
   @override
   CategoryEnum get category;
+  @override
+  List<CommentModel> get comments;
   @override
   @JsonKey(ignore: true)
   _$$PlaceModelImplCopyWith<_$PlaceModelImpl> get copyWith =>

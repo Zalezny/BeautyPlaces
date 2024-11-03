@@ -1,4 +1,5 @@
 import 'package:beauty_places/data/models/place_model.dart';
+import 'package:beauty_places/screens/widgets/comment_section.dart';
 import 'package:beauty_places/screens/widgets/window_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,10 +28,6 @@ class _PlaceDetailsWindowState extends State<PlaceDetailsWindow> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(29),
       child: Container(
-        height: 500,
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.6,
-        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(29),
@@ -79,6 +76,15 @@ class _PlaceDetailsWindowState extends State<PlaceDetailsWindow> {
                       widget.place.description,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
+                  ),
+                  const SizedBox(height: 10),
+                  BlocBuilder<MapCubit, MapState>(
+                    builder: (context, state) {
+                      return CommentSection(
+                        comments: state.models!.firstWhere((element) => element.uuid == widget.place.uuid).comments,
+                        placeUuid: widget.place.uuid!,
+                      );
+                    },
                   ),
                 ],
               ),

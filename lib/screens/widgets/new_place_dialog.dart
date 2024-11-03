@@ -153,6 +153,7 @@ class _NewPlaceDialogState extends State<NewPlaceDialog> {
                       imageUrl: _imageUrlController.text,
                       location: GeoPoint(_currentLatLng.latitude, _currentLatLng.longitude),
                       category: _categoryEnum!,
+                      comments: [],
                     );
                     context.read<MapCubit>().writePlace(place, (id) {
                       Navigator.pop(context);

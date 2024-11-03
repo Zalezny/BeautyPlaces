@@ -120,6 +120,7 @@ class _WriteScreenState extends State<WriteScreen> {
                         double.parse(_locationLongtitudeController.text),
                       ),
                       category: _categoryEnum!,
+                      comments: [],
                     );
 
                     _writeCubit.sendModel(model).then((value) {
