@@ -1,14 +1,18 @@
 import 'package:beauty_places/bloc/cubit/map_cubit.dart';
+import 'package:beauty_places/bloc/cubit/user_session_cubit.dart';
 import 'package:beauty_places/data/models/place_model.dart';
 import 'package:beauty_places/screens/widgets/draggable_sheet_widget.dart';
 import 'package:beauty_places/screens/widgets/favorite_dialog.dart';
+import 'package:beauty_places/screens/widgets/login_dialog.dart';
 import 'package:beauty_places/screens/widgets/simple_account_menu.dart';
 import 'package:beauty_places/screens/widgets/zoom_buttons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../services/injection.dart';
 import 'widgets/new_place_dialog.dart';
 import 'widgets/place_details_window.dart';
 
@@ -146,7 +150,14 @@ class _MapScreenState extends State<MapScreen> {
                           );
                           break;
                         case 1:
-                          dialog = NewPlaceDialog();
+                          dialog = const NewPlaceDialog();
+                          break;
+                        case 2:
+                          if (FirebaseAuth.instance.currentUser != null) {
+                            getIt<UserSessionCubit>().logout();
+                          } else {
+                            dialog = const LoginDialog();
+                          }
                           break;
                       }
                       if (dialog != null) {

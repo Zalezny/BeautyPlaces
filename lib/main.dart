@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:toastification/toastification.dart';
 
 import 'bloc/cubit/map_cubit.dart';
 import 'firebase_options.dart';
@@ -25,18 +26,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BeautyPlaces',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        useMaterial3: true,
+    return ToastificationWrapper(
+      child: MaterialApp(
+        title: 'BeautyPlaces',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+          useMaterial3: true,
+        ),
+        home: kIsWeb
+            ? const WriteScreen()
+            : BlocProvider(
+                create: (context) => MapCubit(getIt<WriteRepository>())..getModels(),
+                child: const MapScreen(),
+              ),
       ),
-      home: kIsWeb
-          ? const WriteScreen()
-          : BlocProvider(
-              create: (context) => MapCubit(getIt<WriteRepository>())..getModels(),
-              child: const MapScreen(),
-            ),
     );
   }
 }

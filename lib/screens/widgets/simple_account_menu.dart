@@ -1,5 +1,8 @@
+import 'package:beauty_places/bloc/cubit/user_session_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../services/injection.dart';
 import 'arrow_clipper.dart';
 
 // based on Zach Roszczewski
@@ -74,18 +77,29 @@ class _SimpleAccountMenuState extends State<SimpleAccountMenu> with SingleTicker
         color: Colors.white,
         borderRadius: _borderRadius,
       ),
-      child: IconButton(
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_close,
-          progress: _animationController,
-        ),
-        color: Colors.black,
-        onPressed: () {
-          if (isMenuOpen) {
-            closeMenu();
+      child: BlocBuilder<UserSessionCubit, UserSessionState>(
+        bloc: getIt<UserSessionCubit>(),
+        builder: (context, state) {
+          final icon = state.when(notLogged: () => const Icon(Icons.login), logged: (user) => const Icon(Icons.logout));
+          if (icons.length == 3) {
+            icons[2] = icon;
           } else {
-            openMenu();
+            icons.add(icon);
           }
+          return IconButton(
+            icon: AnimatedIcon(
+              icon: AnimatedIcons.menu_close,
+              progress: _animationController,
+            ),
+            color: Colors.black,
+            onPressed: () {
+              if (isMenuOpen) {
+                closeMenu();
+              } else {
+                openMenu();
+              }
+            },
+          );
         },
       ),
     );
