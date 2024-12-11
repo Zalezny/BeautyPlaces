@@ -47,7 +47,7 @@ class UserSessionCubit extends Cubit<UserSessionState> {
       await FirebaseAuth.instance.signOut();
 
       toastification.show(
-        title: const Text('Success of logout'),
+        title: const Text('Wylogowano'),
         alignment: Alignment.bottomCenter,
         type: ToastificationType.success,
         autoCloseDuration: const Duration(seconds: 3),

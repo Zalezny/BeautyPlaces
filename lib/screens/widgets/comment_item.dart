@@ -9,42 +9,42 @@ class CommentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          comment.email!,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        const Spacer(),
-                        RatingBar.builder(
-                          initialRating: 3,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: false,
-                          ignoreGestures: true,
-                          itemCount: 5,
-                          itemSize: 20,
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          itemBuilder: (context, _) => const SizedBox(
-                            child: Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                          ),
-                          onRatingUpdate: (_) {},
-                        ),
-                      ],
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  comment.email!,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const Spacer(),
+                RatingBar.builder(
+                  initialRating: comment.star.toDouble(),
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
+                  itemCount: 5,
+                  itemSize: 20,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const SizedBox(
+                    child: Icon(
+                      Icons.star,
+                      color: Colors.amber,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      comment.content,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ));
+                  ),
+                  onRatingUpdate: (_) {},
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              comment.content,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ));
   }
 }

@@ -2,7 +2,10 @@ import 'package:beauty_places/bloc/cubit/map_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:toastification/toastification.dart';
 
+import '../../bloc/cubit/user_session_cubit.dart';
+import '../../services/injection.dart';
 import '../../utils/validators.dart';
 
 class AddCommentSection extends StatefulWidget {
@@ -64,6 +67,15 @@ class _AddCommentSectionState extends State<AddCommentSection> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
+                if (getIt<UserSessionCubit>().state == const UserSessionState.notLogged()) {
+                  toastification.show(
+                    title: const Text('Musisz być zalogowany aby dodać komentarz'),
+                    alignment: Alignment.bottomCenter,
+                    type: ToastificationType.success,
+                    autoCloseDuration: const Duration(seconds: 3),
+                  );
+                  return;
+                }
                 if (formKey.currentState!.validate()) {
                   context.read<MapCubit>().addComment(widget.placeUuid, _textController.text, rating);
                 }
